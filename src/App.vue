@@ -1,32 +1,37 @@
 <template>
-  <div id="app" class="grid-container" v-on:change-stock="size += 1">
+  <div id="app" class="grid-container">
     <FavStocks @changeStock="updateStock" />
 
+    <GeneralNews v-if="!$store.getters.currentStock" />
+    <CompanyNews v-if="$store.getters.currentStock" />
     <Main />
-
-    <News />
   </div>
 </template>
 
 <script>
 // import HelloWorld from "./components/HelloWorld.vue";
-import News from "./components/News";
+import GeneralNews from "./components/GeneralNews";
 import Main from "./components/Main";
 import FavStocks from "./components/FavStocks";
+import CompanyNews from "./components/CompanyNews";
+import { store } from "./store/store";
 
 export default {
   name: "App",
+  store,
   components: {
     // HelloWorld,
-    News,
+    GeneralNews,
+    CompanyNews,
     Main,
     FavStocks,
   },
   data() {
-    return { currentStock: "", size: 0 };
+    return { currentStock: "" };
   },
   methods: {
-    updateStock: function() {
+    updateStock: function(arg) {
+      this.currentStock = arg;
       console.log("stock chnaged");
     },
   },

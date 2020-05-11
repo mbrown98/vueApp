@@ -1,5 +1,5 @@
 <template>
-  <div v-if="selectedStock" id="main">Main</div>
+  <div v-if="selectedStock" id="main">Main {{ selectedStock }}</div>
 </template>
 
 <script>
@@ -7,8 +7,14 @@
 export default {
   name: "Main",
   components: {},
+  props: ["currentStock"],
   data() {
-    return { selectedStock: "" };
+    return { selectedStock: "aaa" };
+  },
+  watch: {
+    currentStock: function() {
+      this.selectedStock = this.currentStock;
+    },
   },
 };
 </script>

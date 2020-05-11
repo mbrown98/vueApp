@@ -1,35 +1,35 @@
 <template>
-  <div id="favStocks" v-on:click="changeStock">
-    <h1>Stocks</h1>
-    <p>{{ stockData.c }}</p>
+  <div id="favStocks">
+    <h1 v-on:click="changeStore">Stocks {{ $store.getters.flavor }}</h1>
+    <StockItem
+      v-for="stock in userStocks"
+      :key="stock"
+      :symbolProp="stock"
+      @changeStock="updateStock"
+    />
   </div>
 </template>
 
 <script>
 // import TopRated from "./TopRated";
-import axios from "axios";
+// import axios from "axios";
+import StockItem from "./StockItem";
+import { store } from "../store/store";
 export default {
   name: "Stocks",
-  components: {},
+  store,
+  components: { StockItem },
   data() {
-    return { userStocks: [], stockData: [] };
+    return { userStocks: ["AAPL", "AMZN", "WMT"], stockData: [] };
   },
-  created() {
-    axios
-      .get(
-        "https://finnhub.io/api/v1/quote?symbol=AAPL&token=bqsr1bfrh5rc3vfduat0"
-      )
-      .then((response) => {
-        this.stockData = response.data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  },
+  created() {},
   methods: {
-    changeStock: function() {
-      this.$emit("changeStock");
-      console.log("hello");
+    updateStock: function(arg) {
+      console.log(arg);
+      this.$emit("changeStock", arg);
+    },
+    changeStore: function() {
+      this.$store.commit("change", "van");
     },
   },
 };
